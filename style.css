@@ -24,6 +24,32 @@ body{background:#fff}.work{background:#fafafa}.sky{background:#111;color:#fff}.s
 #travel .wordmark img{width:30px;height:30px;flex:none}
 #travel .closing img{width:76px;height:76px}
 #travel{overflow-x:clip}
+/* Flagship AI station guidance. */
+#travel .indoor-section{padding:125px 0 30px}
+#travel .indoor-kicker{font-size:16px;font-weight:650;color:#74756a;letter-spacing:-.4px;margin:0 0 18px}
+#travel .indoor-showcase{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:55px;background:#f2efda;border-radius:30px;padding:60px;margin-top:52px}
+#travel .indoor-badge{display:inline-block;font-size:12px;font-weight:650;padding:10px 13px;background:#fff9;border-radius:30px}
+#travel .indoor-story h3{font-size:32px;line-height:1.5;letter-spacing:-1.4px;margin:24px 0}
+#travel .indoor-story>p{font-size:16px;color:#65655f;line-height:1.85;margin:0}
+#travel .indoor-context{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+#travel .indoor-context span{font-size:12px;padding:8px 11px;border:1px solid #d5d1bb;border-radius:20px}
+#travel .indoor-guide{background:#fff;border:1px solid #e6e3d4;border-radius:24px;padding:28px;box-shadow:0 20px 45px #756d3e12}
+#travel .indoor-guide-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:25px;border-bottom:1px solid #eeeee8;font-size:16px;font-weight:700}
+#travel .indoor-guide-head span:last-child{font-size:11px;color:#7b7c73;font-weight:400}
+#travel .indoor-steps{list-style:none;padding:0;margin:8px 0 0}
+#travel .indoor-steps li{display:flex;gap:15px;padding:22px 0;position:relative}
+#travel .indoor-steps li:not(:last-child):after{content:"";position:absolute;left:17px;top:62px;bottom:-13px;width:1px;background:#deded5}
+#travel .indoor-step-number{display:grid;place-items:center;flex:0 0 36px;height:36px;background:#f7e85b;border-radius:50%;font-size:12px;font-weight:700}
+#travel .indoor-steps h4{font-size:17px;letter-spacing:-.5px;margin:5px 0 10px}
+#travel .indoor-steps p{font-size:14px;line-height:1.8;color:#71736b;margin:0}
+#travel .indoor-guide-foot{border-top:1px solid #eeeee8;padding-top:18px;margin:6px 0 0;font-size:12px;color:#797b72;line-height:1.7}
+#travel .indoor-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;padding:45px 0 25px}
+#travel .indoor-benefits article>span{font-size:11px;letter-spacing:1.5px;color:#777a75}
+#travel .indoor-benefits h3{font-size:21px;letter-spacing:-.7px;margin:15px 0}
+#travel .indoor-benefits p{font-size:16px;color:#6b6e74;line-height:1.85;margin:0}
+#travel .indoor-footnote{font-size:12px;color:#74766e;line-height:1.8;margin:12px 0 24px}
+@media(max-width:900px){#travel .indoor-showcase{padding:35px;gap:28px}#travel .indoor-story h3{font-size:28px}}
+@media(max-width:640px){#travel .indoor-section{padding:80px 0 0}#travel .indoor-kicker{font-size:14px;line-height:1.7}#travel .indoor-showcase{grid-template-columns:1fr;padding:28px 20px;gap:32px;border-radius:22px;margin-top:32px}#travel .indoor-story h3{font-size:27px}#travel .indoor-story>p{font-size:15px}#travel .indoor-guide{padding:22px 18px}#travel .indoor-steps{padding:0}#travel .indoor-steps li{gap:12px}#travel .indoor-steps h4{font-size:16px}#travel .indoor-steps p{font-size:13px}#travel .indoor-benefits{grid-template-columns:1fr;gap:30px;padding-top:32px}#travel .indoor-benefits h3{font-size:20px}#travel .indoor-benefits p{font-size:15px}}
 .nav-service{display:inline-flex;align-items:center;gap:10px;padding:11px 17px;border-radius:30px;background:var(--ink);color:#fff}.nav-service:hover{background:#333;color:#fff}.nav-service span{font-size:13px}
 @media(max-width:850px){.team-page .header nav{gap:12px}.team-page .header nav>a:not(.nav-service):not(.nav-contact){display:none}}
 @media(max-width:600px){.team-page .header{height:auto;min-height:110px;padding:14px 0;gap:10px;flex-wrap:wrap}.team-page .header .brand{font-size:17px;width:100%}.team-page .header .brand svg{width:32px}.team-page .header nav{display:flex;width:100%;gap:7px;justify-content:flex-start}.team-page .nav-service,.team-page .nav-contact{display:inline-flex!important;padding:9px 12px;font-size:12px}.team-page .nav-service span,.team-page .nav-contact span{display:none}}
