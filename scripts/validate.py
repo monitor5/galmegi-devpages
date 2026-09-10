@@ -16,11 +16,13 @@ class Validate(HTMLParser):
                 assert (root / value.lstrip('/')).is_file(), value
             if value.startswith('#') and len(value) > 1:
                 self.anchors.append(value[1:])
-        if tag == 'svg' and a.get('viewbox') == '0 0 24 24':
-            assert a.get('width') == '16' and a.get('height') == '16'
+        if tag == 'img' and a.get('class') == 'member-avatar':
+            assert a.get('alt', '').endswith('GitHub 프로필 사진')
 parser = Validate()
 parser.feed((root / 'index.html').read_text())
 assert set(parser.anchors) <= parser.ids
+assert (root / 'index.html').read_text().count('class="member-avatar"') == 4
+assert '갈매기 개발단' not in (root / 'index.html').read_text()
 ET.parse(root / 'sitemap.xml')
 ET.parse(root / 'assets/gull.svg')
 print('Static assets, anchors, icon dimensions and XML validated.')
