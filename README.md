@@ -61,7 +61,17 @@ python3 -m http.server 4180 --bind 127.0.0.1
 
 배포할 파일은 `index.html`, `style.css`, `robots.txt`, `sitemap.xml`, `assets/`입니다. 서버의 새 릴리스 디렉터리에 이 파일만 복사하고 활성 심볼릭 링크를 교체합니다. 이전 릴리스로 링크를 되돌려 복구할 수 있습니다. 콘텐츠 수정에는 Nginx 재시작이 필요하지 않습니다.
 
-현재 배포는 수동이며 GitHub push만으로 서버가 갱신되지는 않습니다. 서버 접속키와 운영 설정은 이 공개 저장소에 포함하지 않습니다.
+`main`에 push하면 **GitHub Actions → 검증 → 배포 → HTTPS 확인**이 자동 실행됩니다. PR에서는 검증만 실행합니다. Actions의 `Run workflow`로 수동 실행할 수도 있습니다.
+
+- HTML 자산 경로·앵커·아이콘 크기·XML을 먼저 검사합니다.
+- 배포 전용 SSH 키는 GitHub Secrets에 저장합니다. 서버 계정은 sudo 권한이 없고, 강제 명령으로 정적 파일 배포만 허용합니다.
+- 허용한 공개 파일만 패키징하고 새 릴리스로 전환합니다. 서버 검증 실패 시 이전 릴리스로 복구합니다.
+- 마지막으로 공개 HTTPS의 `revision.txt`가 이번 커밋과 실행 번호인지 확인합니다. 공개망 검증 실패는 Actions 실패로 표시되며 서버의 정상 릴리스는 유지합니다.
+- 같은 브랜치의 배포는 순서대로 처리합니다. 기존 앱 프로세스는 재시작하지 않습니다.
+
+[배포 실행 기록](https://github.com/monitor5/galmegi-devpages/actions/workflows/deploy.yml)
+
+설정 Secrets: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_KNOWN_HOSTS`. 수신 프로그램은 `ops/receive-deploy.py`이며 서버의 root 소유 경로에 설치합니다. 이 프로그램 자체의 변경은 별도 서버 설치가 필요합니다. 접속키는 저장소에 포함하지 않습니다.
 
 ## 이용 및 문의
 

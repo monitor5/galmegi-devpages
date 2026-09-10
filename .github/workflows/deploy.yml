@@ -1,0 +1,55 @@
+name: Validate and deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: devpages-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python3 scripts/validate.py
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: production
+      url: https://dev.galmegi.com
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Package public files
+        run: |
+          python3 - <<'PY'
+          import pathlib, tarfile
+          with tarfile.open('/tmp/site.tar.gz', 'w:gz') as archive:
+              for name in ('index.html', 'style.css', 'robots.txt', 'sitemap.xml'):
+                  archive.add(name, arcname=name)
+              for path in pathlib.Path('assets').rglob('*'):
+                  if path.is_file():
+                      archive.add(path, arcname=str(path))
+          PY
+      - name: Deploy release
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          set -euo pipefail
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          trap 'rm -f ~/.ssh/deploy' EXIT
+          ssh -i ~/.ssh/deploy -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 "$DEPLOY_USER@$DEPLOY_HOST" "deploy $GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" < /tmp/site.tar.gz
+      - name: Verify public HTTPS
+        run: |
+          curl --fail --silent --show-error --retry 3 --max-time 20 "https://dev.galmegi.com/revision.txt?run=$GITHUB_RUN_ID" | grep -Fx "$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
